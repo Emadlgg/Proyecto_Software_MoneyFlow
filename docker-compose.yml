@@ -1,0 +1,52 @@
+version: '3.8'  # Versión más reciente para mejores features
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: "1234"
+      DB_NAME: "moneyflow"  # Explícita el nombre de la BD
+      NODE_ENV: development  # Opcional: cambia a "production" en prod
+    depends_on:
+      db:
+        condition: service_healthy  # Espera hasta que PostgreSQL esté listo
+    restart: unless-stopped  # Auto-reinicio ante fallos
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "moneyflow"
+      POSTGRES_USER: "postgres"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:  # ¡Nuevo! Permite que backend espere a que la BD esté lista
+      test: ["CMD-SHELL", "pg_isready -U postgres -d moneyflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"  # Opcional: expón el puerto para herramientas externas (DBeaver, etc.)
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3001:3000"  # Vite usa 3000 por defecto
+    environment:
+      VITE_API_URL: "http://localhost:3000"  # Variable específica de Vite
+      NODE_ENV: development
+    volumes:
+      - ./frontend:/app  # Hot-reload en desarrollo
+      - /app/node_modules  # Evita sobrescribir node_modules
+    depends_on:
+      backend:
+        condition: service_started  # Espera a que backend inicie
+    restart: unless-stopped
+
+volumes:
+  postgres_data:  # Persistencia de datos de PostgreSQL

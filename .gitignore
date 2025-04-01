@@ -1,0 +1,12 @@
+# Ignorar node_modules en todos los niveles
+node_modules/
+*/node_modules/*
+**/node_modules/**
+
+# Otros archivos a ignorar (comunes para Node.js/React)
+.env
+.DS_Store
+dist/
+build/
+*.log
+.vscode/
