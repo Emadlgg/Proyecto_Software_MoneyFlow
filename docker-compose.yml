@@ -36,9 +36,9 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3001:3000"  # Vite usa 3000 por defecto
+      - "3001:3000"  # Vite usa 3000 internamente, se expone en 3001 en el host
     environment:
-      VITE_API_URL: "http://localhost:3000"  # Variable específica de Vite
+      VITE_API_URL: "http://localhost:3000/api"  # Agrega /api aquí
       NODE_ENV: development
     volumes:
       - ./frontend:/app  # Hot-reload en desarrollo
@@ -47,6 +47,7 @@ services:
       backend:
         condition: service_started  # Espera a que backend inicie
     restart: unless-stopped
+
 
 volumes:
   postgres_data:  # Persistencia de datos de PostgreSQL
