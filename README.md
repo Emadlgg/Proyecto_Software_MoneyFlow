@@ -48,7 +48,7 @@ Crear archivo `.env` en `/backend` basado en `.env.example`:
 DB_HOST=db
 DB_USER=postgres
 DB_PASSWORD=1234
-JWT_SECRET=tu_clave_secreta
+JWT_SECRET=""
 ```
 
 Levantar servicios con Docker:
@@ -115,11 +115,7 @@ MIT License - Ver `LICENSE` para más detalles.
 
 ---
 
-✨ Desarrollado por [Tu Nombre] - [@tu-github](https://github.com/tu-github)  
+✨ Desarrollado por [Grupo #9 - Ingeniería de Software ] - [@Emadlgg](https://github.com/Emadlgg)  
 🏛 Universidad del Valle de Guatemala - Ingeniería de Software 2025
 
 ---
-
-## 🔗 Enlaces Rápidos
-- 🌍 **Deploy en Render**
-- ⚡ **Frontend en Vercel**
